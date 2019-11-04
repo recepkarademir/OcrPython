@@ -1,2 +1,2 @@
 # OcrPython
- Number recognition
+Character recognition
