@@ -61,7 +61,7 @@ def karakter_belge_kontrol():  # Çıktı txt dosyası kontrolü
 def fotograf_oku():  # Fotoğraf okuma fonksiyonu
     image = cv2.imread('img.jpg')
 
-    width = image.shape[1]  # Başarıyla okunulan fotoğraf boyutları okunuyor
+    width = image.shape[1]  # Başarıyla okunulan fotoğraf boyutları bulunuyor
     height = image.shape[0]
 
     dim = (2 * width, 2 * height)  # Ocr işlemine alınacak fotoğraf boyutu iki katına çıkarılacak.
@@ -87,12 +87,12 @@ def fotograf_onislem():
 
     # Binary (Siyah-beyaz fotoğraf dönüşümü)
     # 125  gri seviyenin binarye dönüştüğü eşik değer.
-    # 37  blockSize:kaç boyutlu filtre ile her pikselin komşusuna bakılıp yeni piksel değeri atanacğını belileyen filtre boyutu.
+    # 33  blockSize:kaç boyutlu filtre ile her pikselin komşusuna bakılıp yeni piksel değeri atanacğını belileyen filtre boyutu.
     binary = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 125, 33)
     # gray fotoğrafı ikili fotoğrafa dönüştürülüp binary değişkenine aktarılıyor.
 
     # Dilation (Karakter gövde belirginleştirme)
-    kernel = np.ones((2, 2), np.uint8)  # siyah zemin üzerindeki nesneyi 2px dikey ve 1px yatay genişlet
+    kernel = np.ones((2, 2), np.uint8)  # siyah zemin üzerindeki nesneyi 2px dikey ve 2px yatay genişlet
     img_dilation = cv2.dilate(binary, kernel, iterations=1)  # binary fotoğrafa bir kez genişletmeyi uygular
 
     # Dilation (Karakter gövde belirginleştirme) Satır tespit etmek için karakterler yatay genişletilecek.
@@ -109,16 +109,12 @@ def fotograf_onislem():
 
 
 def kontur_bul():
-    ctrs, hier = cv2.findContours(img_dilation.copy(), cv2.RETR_EXTERNAL,
-                                  cv2.CHAIN_APPROX_SIMPLE)  # cv2.RETR_EXTERNAL yerine cv2.RETR_TREE kullanmak iç içe yapılarda karakter tanıma yapabilir
-    ctrs_satir, hier2 = cv2.findContours(satir_konum_dilation.copy(), cv2.RETR_EXTERNAL,
-                                         cv2.CHAIN_APPROX_SIMPLE)  # iç içe yapılarda karakter tanımlama yapamaz
+    ctrs, hier = cv2.findContours(img_dilation.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)  # cv2.RETR_EXTERNAL yerine cv2.RETR_TREE kullanmak iç içe yapılarda karakter tanıma yapabilir
+    ctrs_satir, hier2 = cv2.findContours(satir_konum_dilation.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)  # iç içe yapılarda karakter tanımlama yapamaz
 
     # Konturlar sıralanıyor
-    sorted_ctrs = sorted(ctrs, key=lambda ctr: cv2.boundingRect(ctr)[
-        0])  # 0 : fotoğrafta soldan sağa doğru konturları sıralar. Sıralı karakter tespiti için
-    sorted_ctrs_satir = sorted(ctrs_satir, key=lambda ctr: cv2.boundingRect(ctr)[
-        1])  # 1 :fotoğrafta yukarıdan aşağı doğru konturları sıralar. Satırlar için
+    sorted_ctrs = sorted(ctrs, key=lambda ctr: cv2.boundingRect(ctr)[0])  # 0 : fotoğrafta soldan sağa doğru konturları sıralar. Sıralı karakter tespiti için
+    sorted_ctrs_satir = sorted(ctrs_satir, key=lambda ctr: cv2.boundingRect(ctr)[1])  # 1 :fotoğrafta yukarıdan aşağı doğru konturları sıralar. Satırlar için
     # Kontur sıralaması ilk sıralı karakter ve sıralı satır tespitine kullanılır.
 
     return sorted_ctrs, sorted_ctrs_satir
@@ -144,11 +140,10 @@ def karakter_tahmin():
         # Kıyas yapılacak bölge fotoğraftan kırpılıyor
         karakter_bolgesi = image_invert_dilation.crop((x, y, x + w, y + h))
 
-        roi = karakter_bolgesi.convert('P', colors=255,
-                                       palette=Image.ADAPTIVE)  # karakter bölgesini roi değikenine atar
+        roi = karakter_bolgesi.convert('P', colors=255,palette=Image.ADAPTIVE)  # karakter bölgesini roi değikenine atar
 
 
-        hash0 = imagehash.average_hash(roi, 64)  # roi bölgesinin hash kodunu hosh0 a atar.
+        hash0 = imagehash.average_hash(roi, 64)  # roi bölgesinin hash kodunu hash0 a atar.
 
         if w > 15 or h > 15:  # çok küçük boyutlu bölgelerde karakter tanımlama yapılmaz
             tahmin_oran = [0] * 10  # bütün dizi elemanları 0 olacak
@@ -176,8 +171,7 @@ def karakter_tahmin():
             if tahmin_oran[digit] > 0.73:  # %73 benzerlik içeren karakter etiketi için tahmin yapılır
                 fc = str(digit)  # etiket stringe dönüştürülür
 
-                cv2.rectangle(image, (x, y), (x + w - 1, y + h - 1), (0, 0, 255),
-                              1)  # tahmin karakteri alanı işaretlenir
+                cv2.rectangle(image, (x, y), (x + w - 1, y + h - 1), (0, 0, 255),1)  # tahmin karakteri alanı işaretlenir
                 cv2.putText(image, fc, (x, y + 5), cv2.FONT_HERSHEY_PLAIN, 2, (36, 255, 12),2)  # B:36 G:255 R:12 yazı renk kodu. etiket fotoğrafa eklendi
 
                 karakter.append(fc)  # tahmin edilen karakter sırasız olarak listeye kaydediliyor
@@ -192,15 +186,13 @@ def satir_bosluk_bul():
     bosluk_index = 0
     bosluk_bayrak = 0
 
-    for i, ctrs_konum in enumerate(
-            sorted_ctrs_konum):  # sırasıyla satırlar bulunur. Satır içindeki karakterler arası boşluk bulunur.
+    for i, ctrs_konum in enumerate(sorted_ctrs_konum):  # sırasıyla satırlar bulunur. Satır içindeki karakterler arası boşluk bulunur.
 
         # satırın konumları alınıyor
         x, y, w, h = cv2.boundingRect(ctrs_konum)
 
         if w > 15 and h > 15:  # satır küçük boyutlarda olamaz
-            cv2.rectangle(image, (x, y), (x + w - 1, y + h - 1), (0, 255, 0),
-                          1)  # satır alanını yeşil dikdörtgenle çizecek
+            cv2.rectangle(image, (x, y), (x + w - 1, y + h - 1), (0, 255, 0),1)  # satır alanını yeşil dikdörtgenle çizecek
             if i == 0:
                 satir_sonu_konum[0] = y  # satır sonunun y başlangıç konumunu tutar
                 satir_sonu_konum[1] = h  # satır sonunun yüksekliğini tutar
@@ -213,17 +205,14 @@ def satir_bosluk_bul():
             for index in range(kiyas_boyut):
                 merkez_X = int(karakter_konum_x[index] + karakter_konum_w[
                     index] / 2)  # Satır içindeki karakterin merkez noktası hesaplanıyor
-                merkez_Y = int(karakter_konum_y[index] + karakter_konum_h[
-                    index] / 2)  # Satır içindeki karakterin merkez noktası hesaplanıyor
+                merkez_Y = int(karakter_konum_y[index] + karakter_konum_h[index] / 2)  # Satır içindeki karakterin merkez noktası hesaplanıyor
 
                 # Satır içindeki karakterin merkez noktası, satır kordinatları içindeyse txt ye karakter kaydediliyor.
                 if x <= merkez_X <= (x + w) and y <= merkez_Y <= (y + h):
                     bosluk_fark[bosluk_index] = index
                     if bosluk_bayrak == 0:  # karakterler arasında bir karakterlik boşluk varsa boşluk eklenecek
-                        fark = abs((karakter_konum_x[bosluk_fark[0]] + karakter_konum_w[bosluk_fark[0]]) - (
-                            karakter_konum_x[bosluk_fark[1]]))
-                        if fark > (karakter_konum_w[bosluk_fark[
-                            0]] * 2):  # karakterler arasında iki karakterlik boşluk varsa boşluk eklenecek
+                        fark = abs((karakter_konum_x[bosluk_fark[0]] + karakter_konum_w[bosluk_fark[0]]) - (karakter_konum_x[bosluk_fark[1]]))
+                        if fark > (karakter_konum_w[bosluk_fark[0]] * 2):  # karakterler arasında iki karakterlik boşluk varsa boşluk eklenecek
                             karakter_yaz(" ")  # Boşluk txt ye yazılıyor
                         bosluk_index = 0
                         bosluk_bayrak = 1
@@ -231,10 +220,8 @@ def satir_bosluk_bul():
                         temp = bosluk_fark[0]
                         bosluk_fark[0] = bosluk_fark[1]
                         bosluk_fark[1] = temp
-                        fark = abs((karakter_konum_x[bosluk_fark[0]] + karakter_konum_w[bosluk_fark[0]]) - (
-                            karakter_konum_x[bosluk_fark[1]]))
-                        if fark > (karakter_konum_w[bosluk_fark[
-                            0]] * 2):  # karakterler arasında iki karakterlik boşluk varsa boşluk eklenecek
+                        fark = abs((karakter_konum_x[bosluk_fark[0]] + karakter_konum_w[bosluk_fark[0]]) - (karakter_konum_x[bosluk_fark[1]]))
+                        if fark > (karakter_konum_w[bosluk_fark[0]] * 2):  # karakterler arasında iki karakterlik boşluk varsa boşluk eklenecek
                             karakter_yaz(" ")  # Boşluk txt ye yazılıyor
 
                     karakter_yaz(karakter[index])  # Tahmin edilen karakter txt ye yazılıyor.
