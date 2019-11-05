@@ -28,7 +28,7 @@ tahmin_oran = arr.array('f', [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
 bosluk_fark = arr.array('i', [0, 0])
 
 # 0.indis satırın y konumunu     1.indis satırın yüksekliğini tutar
-satir_sonu_konum = arr.array('i', [0, 0, 0, 0])
+satir_sonu_konum = arr.array('i', [0, 0])
 
 karakter = []  # tahmin edilen karakterlerin sırasız olarak tutulduğu dizi
 
@@ -163,9 +163,9 @@ def karakter_tahmin():
                 hash1 = imagehash.average_hash(img2, 64)  # etiketli kıyas fotoğrafının hash değeri hash1 e atanır
 
                 i = int(filename)  # filename etiketli tahmindir
-                fark = (1 - ((hash0 - hash1) / len(hash0.hash) ** 2))  # hash farkları hesaplanıyor.
-                if fark > tahmin_oran[i]:  # en çok benzerlik içeren oran tahmin dizisine eklenir
-                    tahmin_oran[i] = fark
+                benzerlik = (1 - ((hash0 - hash1) / len(hash0.hash) ** 2))  # hash farkları hesaplanıyor.
+                if benzerlik > tahmin_oran[i]:  # en çok benzerlik içeren oran tahmin dizisine eklenir
+                    tahmin_oran[i] = benzerlik
 
             digit = (tahmin_oran.index(max(tahmin_oran)))  # en yüksek benzerlik içeren etiket bulunur
             if tahmin_oran[digit] > 0.73:  # %73 benzerlik içeren karakter etiketi için tahmin yapılır
@@ -211,8 +211,8 @@ def satir_bosluk_bul():
                 if x <= merkez_X <= (x + w) and y <= merkez_Y <= (y + h):
                     bosluk_fark[bosluk_index] = index
                     if bosluk_bayrak == 0:  # karakterler arasında bir karakterlik boşluk varsa boşluk eklenecek
-                        fark = abs((karakter_konum_x[bosluk_fark[0]] + karakter_konum_w[bosluk_fark[0]]) - (karakter_konum_x[bosluk_fark[1]]))
-                        if fark > (karakter_konum_w[bosluk_fark[0]] * 2):  # karakterler arasında iki karakterlik boşluk varsa boşluk eklenecek
+                        benzerlik = abs((karakter_konum_x[bosluk_fark[0]] + karakter_konum_w[bosluk_fark[0]]) - (karakter_konum_x[bosluk_fark[1]]))
+                        if benzerlik > (karakter_konum_w[bosluk_fark[0]] * 2):  # karakterler arasında iki karakterlik boşluk varsa boşluk eklenecek
                             karakter_yaz(" ")  # Boşluk txt ye yazılıyor
                         bosluk_index = 0
                         bosluk_bayrak = 1
@@ -220,8 +220,8 @@ def satir_bosluk_bul():
                         temp = bosluk_fark[0]
                         bosluk_fark[0] = bosluk_fark[1]
                         bosluk_fark[1] = temp
-                        fark = abs((karakter_konum_x[bosluk_fark[0]] + karakter_konum_w[bosluk_fark[0]]) - (karakter_konum_x[bosluk_fark[1]]))
-                        if fark > (karakter_konum_w[bosluk_fark[0]] * 2):  # karakterler arasında iki karakterlik boşluk varsa boşluk eklenecek
+                        benzerlik = abs((karakter_konum_x[bosluk_fark[0]] + karakter_konum_w[bosluk_fark[0]]) - (karakter_konum_x[bosluk_fark[1]]))
+                        if benzerlik > (karakter_konum_w[bosluk_fark[0]] * 2):  # karakterler arasında iki karakterlik boşluk varsa boşluk eklenecek
                             karakter_yaz(" ")  # Boşluk txt ye yazılıyor
 
                     karakter_yaz(karakter[index])  # Tahmin edilen karakter txt ye yazılıyor.
