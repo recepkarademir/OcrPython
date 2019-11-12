@@ -4,6 +4,7 @@
 Created on 2019
 @author: RecepKarademir
 O1CR9
+Python 3.7.1
 """
 # 64 bit pillow için
 from PIL import Image  # Fotoğrafı okumak kaydetme göstermek boyutlandırmak için eklenen kütüphane.
@@ -166,8 +167,8 @@ def satir_ve_bosluk_bul(SiraliKarakterler): # Satırlar ve satır içindeki kara
     # tahmin_karakter_adeti: karakter dizisinin boyutu. Boşluk bulmada ve karakteri satır içindeki konumuna yerleştirmede kulanılır.
     tahmin_karakter_adeti = len(karakter)
 
-    satir_konum_boyut = int(len(sirali_satir_konturlari)) # tespit edilen satır sayısı
-
+    satir_konum_boyut = len(sirali_satir_konturlari) # tespit edilen satır sayısı
+    sonraki_karakter = 0
     # yukarıdan aşağı sırasıyla satır bilgileri okunur. Satır içindeki karakterler arası boşluk bulunur.
     for i,satir_kontur in enumerate(sirali_satir_konturlari):
         # satırın konumları alınıyor
@@ -176,13 +177,13 @@ def satir_ve_bosluk_bul(SiraliKarakterler): # Satırlar ve satır içindeki kara
             x2, y2, w2, h2 = cv2.boundingRect(sirali_satir_konturlari[i+1]) # sonraki satır konumları
             if w > 15 and h > 15:  # satır küçük boyutlarda olamaz
                 cv2.rectangle(image, (x, y), (x + w - 1, y + h - 1), (0, 255, 0),1)  # satır alanını yeşil dikdörtgenle çizecek
-                satir_sonu_konum  = y2  # sonraki satır sonunun y başlangıç konumunu tutar
-                satir_sonu_konum2 = h2  # sonraki satır sonunun yüksekliğini tutar
-                if abs(y - satir_sonu_konum) > int(satir_sonu_konum2 / 2):
-                    SiraliKarakterler = SiraliKarakterler+"\n" # Satır sonu stringe yazılıyor
+                #y2   sonraki satır sonunun y başlangıç konumunu tutar
+                #h2   sonraki satır sonunun yüksekliğini tutar
+                if abs(y - y2) > int(h2 / 2):
+                    SiraliKarakterler +="\n" # Satır sonu stringe yazılıyor
         else:
-            SiraliKarakterler = SiraliKarakterler+"\n"  # Son satır sonu stringe yazılıyor
-        sonraki_karakter = 0
+            SiraliKarakterler +="\n"  # Son satır sonu stringe yazılıyor
+
 
         for indis in range(tahmin_karakter_adeti): # ocr foto. içinde tahmin edilen karakter sayısı kadar kontrol yapılacak.
             merkez_X = int(karakter_konum_x[indis] + karakter_konum_w[indis] / 2)  # Satır içindeki karakterin merkez noktası hesaplanıyor
@@ -191,19 +192,18 @@ def satir_ve_bosluk_bul(SiraliKarakterler): # Satırlar ve satır içindeki kara
             # Satır içindeki karakterin merkez noktası, satır kordinatları içindeyse stringe karakter kaydediliyor.
             if x <= merkez_X <= (x + w) and y <= merkez_Y <= (y + h):
                 # Tahmin edilen satır içinde olduğundan karakter stringe eklendi
-                SiraliKarakterler = SiraliKarakterler + karakter[indis]
 
-                gecici = indis
                 onceki_karakter = sonraki_karakter
-                sonraki_karakter = gecici
+                sonraki_karakter = indis
 
                 # bosluk: iki karakter arasındaki bosluk piksel olarak hesaplanıyor
-                bosluk = abs((karakter_konum_x[onceki_karakter] + karakter_konum_w[onceki_karakter]) - (karakter_konum_x[sonraki_karakter]))
+                bosluk = abs((karakter_konum_x[onceki_karakter] + karakter_konum_w[onceki_karakter]) - karakter_konum_x[sonraki_karakter])
 
                 # karakterler arasında ortalama bir karakterlik boşluk varsa boşluk eklenecek
                 if bosluk > ((karakter_konum_w[onceki_karakter]+karakter_konum_w[sonraki_karakter])/2):
-                    SiraliKarakterler = SiraliKarakterler+" "  # Boşluk stringe eklendi
-        i=i+1
+                    SiraliKarakterler +=" "  # Boşluk stringe eklendi
+                SiraliKarakterler +=karakter[indis]
+        i+=1
     return SiraliKarakterler
 
 """
@@ -226,7 +226,7 @@ if fotograf_kontrol() and karakter_belge_kontrol():  # Fotoğraf ve çıktı bel
     SiraliKarakterler=satir_ve_bosluk_bul(SiraliKarakterler)  # Satırları ve karakterler arasındaki boşlukları bulan fonksiyon
 
     fotograf_goster(image, "Fotograf")  # ocr yapılan fotoğraf
-    karakter_yaz(SiraliKarakterler) # Tahmin edilen karakter txt ye yazılıyor.
+    karakter_yaz(SiraliKarakterler) # Tahmin sonucu txt ye yazılıyor.
     os.startfile(r'output.txt')  # Ocr sonucu Notepad ile açılıyor
 
     cv2.waitKey(0)  # Pencerelerin kapatılmak için tuşa basılmasını bekleniyor

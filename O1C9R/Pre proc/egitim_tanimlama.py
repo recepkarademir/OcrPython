@@ -9,11 +9,11 @@ image = cv2.imread('egitim.jpg')
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # binary
-gray = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 1085,31)
+binary = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 105,33)
 
 # dilation
 kernel = np.ones((2, 1), np.uint8)
-img_dilation = cv2.dilate(gray, kernel, iterations=1)
+img_dilation = cv2.dilate(binary, kernel, iterations=1)
 
 #find contours
 ctrs, hier = cv2.findContours(img_dilation.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -34,7 +34,7 @@ for i, ctr in enumerate(sorted_ctrs):
     roi = target.convert('P', colors=255, palette=Image.ADAPTIVE)
 
 
-    if w > 5 and h > 5: # çok küçük karakterler eğitim için kullanılamaz
+    if w > 10 and h > 10: # çok küçük karakterler eğitim için kullanılamaz
         roi.save("chars/"+"{}".format(name)+" ({}).png".format(i))
         #cv2.imwrite('chars/{}.png'.format(name), roi)
 
