@@ -12,6 +12,11 @@ Kıyas aşamasındaki başarımın artması amacıyla etiketli olan fotoğraflar
 ____________________________________________________________________________________________________________________________________
 ### Fotoğraflar
 <img src="readme_img/a.jpg" alt="alt text" width="200%" height="150%">
+<img src="readme_img/b.jpg" alt="alt text" width="200%" height="150%">
+<img src="readme_img/c.jpg" alt="alt text" width="200%" height="150%">
+<img src="readme_img/d.jpg" alt="alt text" width="200%" height="150%">
+<img src="readme_img/e.jpg" alt="alt text" width="200%" height="150%">
+<img src="readme_img/f.jpg" alt="alt text" width="200%" height="150%">
 
 İletişim
 ------------------------------
