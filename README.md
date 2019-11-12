@@ -11,7 +11,7 @@ Kıyas aşamasındaki başarımın artması amacıyla etiketli olan fotoğraflar
 (Kullanılan versiyon Python 3.7.1)
 ____________________________________________________________________________________________________________________________________
 ### Fotoğraflar
-<img src="readme_img/a (1).jpg" alt="alt text" width="200%" height="150%">
+<img src="readme_img/a.jpg" alt="alt text" width="200%" height="150%">
 
 İletişim
 ------------------------------
