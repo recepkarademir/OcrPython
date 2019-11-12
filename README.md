@@ -1,6 +1,4 @@
-# OcrPython 
-[![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/recepkarademir/OcrPython/blob/master/LICENSE)
-____________________________________________________________________________________________________________________________________
+# OcrPython [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/recepkarademir/OcrPython/blob/master/LICENSE)
 
 Özet:
 ------------------------------
