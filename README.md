@@ -1,6 +1,5 @@
 # OcrPython 
-https://github.com/recepkarademir/OcrPython/blob/master/LICENSE
-[![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)]
+[![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://github.com/recepkarademir/OcrPython/blob/master/LICENSE)
 ____________________________________________________________________________________________________________________________________
 
 Özet:
@@ -12,7 +11,7 @@ Kıyas aşamasındaki başarımın artması amacıyla etiketli olan fotoğraflar
 (Kullanılan versiyon Python 3.7.1)
 ____________________________________________________________________________________________________________________________________
 ### Fotoğraflar
-<img src="img/1200Mbps-Dual-Band-802-11ac-USB-3-0-RTL8812BU-Wireless-AC-1200-Wlan-USB-Wifi-Lan.jpg" alt="alt text" width="50%" height="50%">
+<img src="readme_img/a (1).jpg" alt="alt text" width="200%" height="150%">
 
 İletişim
 ------------------------------
