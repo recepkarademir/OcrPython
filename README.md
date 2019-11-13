@@ -2,9 +2,10 @@
 
 Özet:
 ------------------------------
-O1C9R etiketli ve kayıtlı olan karakter fotoğraflarını, 
-ocr için programa verilen fotoğraf içerisindeki her karakterle kıyaslar ve eşleşme olduğunda kıyas anındaki karakter etiketini çıktı vererek tanımlamayı gerçekleştirir.
-Kıyas aşamasındaki başarımın artması amacıyla etiketli olan fotoğraflar binary hale ve kaynak fotoğraf içindeki karakter alanıyla aynı hash boyutuna getirilir.
+O1C9R etiketli ve kayıtlı olan karakter fotoğraflarını, ocr için programa verilen fotoğraf içerisindeki her karakterle kıyaslar
+ve eşleşme olduğunda kıyas anındaki karakter etiketini çıktı vererek tanımlamayı gerçekleştirir.
+Kıyas aşamasındaki başarımın artması amacıyla etiketli olan fotoğraflar binary hale getirilmiştir.
+Kaynak fotoğraf içindeki karakter alanıyla kıyas karakterleri hash kıyası için aynı hash boyutunda kıyaslanır.
 
 [**Proje raporunu inceleyin**](https://github.com/recepkarademir/OcrPython/blob/master/Python%20Ocr%20Uygulama.pptx)
 
