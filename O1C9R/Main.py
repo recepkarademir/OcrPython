@@ -84,6 +84,7 @@ def fotograf_onislem():
     # 33  blockSize:kaç boyutlu filtre ile her pikselin komşusuna bakılıp yeni piksel değeri atanacğını belileyen filtre boyutu.
     # Gaussion _/\_ eğrisi yöntemiyle fotoğraftaki merkez piksel(ağırlıklı pikseller) vurgulanır.
     binary = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 125, 33)
+    binary2 = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 145, 53)
     # gray fotoğrafı , ters ikili fotoğrafa dönüştürülüp binary değişkenine aktarılıyor.
 
     # Dilation (Karakter gövde belirginleştirme)
@@ -91,8 +92,8 @@ def fotograf_onislem():
     karakter_dilated = cv2.dilate(binary, yayma_oran, iterations=1)  # binary fotoğrafa bir kez genişletmeyi uygular
 
     # Dilation (satır bölge belirginleştirme) Satır tespit etmek için karakterler yatay genişletilecek.
-    yayma_oran = np.ones((1, 250), np.uint8)  # siyah zemin üzerindeki nesneyi 1px dikey ve 250px yatay genişlet
-    satir_dilated = cv2.dilate(binary, yayma_oran, iterations=1)  # binary fotoğrafa bir kez genişletmeyi uygular
+    yayma_oran = np.ones((5, 250), np.uint8)  # siyah zemin üzerindeki nesneyi 1px dikey ve 250px yatay genişlet
+    satir_dilated = cv2.dilate(binary2, yayma_oran, iterations=1)  # binary fotoğrafa bir kez genişletmeyi uygular
 
     cv2.imwrite("dilated.png", cv2.bitwise_not(karakter_dilated))  # hashing işlemi için fotoğraf rengi tersleniyor.
     kirpilabilir = Image.open("dilated.png") # karakterler kıyaslama için bu fotoğraftan kırpılabilir.
@@ -179,7 +180,7 @@ def satir_ve_bosluk_bul(SiraliKarakterler): # Satırlar ve satır içindeki kara
                 cv2.rectangle(image, (x, y), (x + w - 1, y + h - 1), (0, 255, 0),1)  # satır alanını yeşil dikdörtgenle çizecek
                 #y2   sonraki satır sonunun y başlangıç konumunu tutar
                 #h2   sonraki satır sonunun yüksekliğini tutar
-                if abs(y - y2) > int(h2 / 2):
+                if abs(y - y2) > int(h / 2) and h>10:# satır yükseklik boyutu olarak küçük olamaz
                     SiraliKarakterler +="\n" # Satır sonu stringe yazılıyor
         else:
             SiraliKarakterler +="\n"  # Son satır sonu stringe yazılıyor

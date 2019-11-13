@@ -32,7 +32,7 @@
   <component name="ProjectId" id="1SehxSul8V8wlVNKvpdfK7TZSVO" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../tesseract_ocr/tesseract.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../tesseract_ocr" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -59,7 +59,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.egitim_tanimlama (1)">
+  <component name="RunManager" selected="Python.Main">
     <configuration name="Main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="O1C9R" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -105,6 +105,9 @@
       <module name="O1C9R" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Pre proc" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -124,6 +127,9 @@
       <module name="O1C9R" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$USER_HOME$/Documents/STAJ/sil" />
       <option name="IS_MODULE_SDK" value="false" />
@@ -143,6 +149,9 @@
       <module name="O1C9R" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Pre proc" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -182,10 +191,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Main" />
         <item itemvalue="Python.egitim_tanimlama (1)" />
         <item itemvalue="Python.hash_to_txt" />
         <item itemvalue="Python.egitim_tanimlama" />
-        <item itemvalue="Python.Main" />
         <item itemvalue="Python.txt" />
       </list>
     </recent_temporary>
@@ -241,7 +250,17 @@
       <workItem from="1573374403959" duration="598000" />
       <workItem from="1573386457771" duration="8513000" />
       <workItem from="1573400694502" duration="13424000" />
-      <workItem from="1573455850563" duration="6809000" />
+      <workItem from="1573455850563" duration="8400000" />
+      <workItem from="1573478359976" duration="1195000" />
+      <workItem from="1573500504617" duration="940000" />
+      <workItem from="1573501672699" duration="2574000" />
+      <workItem from="1573549779267" duration="45000" />
+      <workItem from="1573549903613" duration="1529000" />
+      <workItem from="1573569906486" duration="222000" />
+      <workItem from="1573630492817" duration="1591000" />
+      <workItem from="1573654446375" duration="1704000" />
+      <workItem from="1573658539780" duration="234000" />
+      <workItem from="1573674899536" duration="1033000" />
     </task>
     <servers />
   </component>

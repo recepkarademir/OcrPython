@@ -34,7 +34,7 @@ for i, ctr in enumerate(sorted_ctrs):
     roi = target.convert('P', colors=255, palette=Image.ADAPTIVE)
 
 
-    if w > 10 and h > 10: # çok küçük karakterler eğitim için kullanılamaz
+    if w > 18 and h > 18: # çok küçük karakterler eğitim için kullanılamaz
         roi.save("chars/"+"{}".format(name)+" ({}).png".format(i))
         #cv2.imwrite('chars/{}.png'.format(name), roi)
 
