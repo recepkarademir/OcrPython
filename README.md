@@ -40,8 +40,6 @@ ________________________________________________________________________________
 İletişim
 ------------------------------
 
-2015141003@cumhuriyet.edu.tr
-
 recepkarademir0018@gmail.com
 
 https://recepkarademir.blogspot.com.tr
