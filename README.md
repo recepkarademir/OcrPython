@@ -44,8 +44,6 @@ ________________________________________________________________________________
 
 recepkarademir0018@gmail.com
 
-www.recepkarademir.com
-
 https://recepkarademir.blogspot.com.tr
 
 https://recepkarademir.wordpress.com
